@@ -9,7 +9,7 @@ sys.setdefaultencoding("utf-8")
 # Flask app should start in global layout
 app = Flask(__name__)
 
-gmaps = googlemaps.Client(key='AIzaSyCP9BKboq28_9WfYxFTVT2dcPJ8yJSNXMI')
+gmaps = googlemaps.Client(key='your googlemaps api key')
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
