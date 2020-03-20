@@ -3,13 +3,13 @@
 import json, os, googlemaps, sys
 from flask import Flask, request, make_response
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
+#reload(sys) //not defined in python3
+#sys.setdefaultencoding("utf-8")
 
 # Flask app should start in global layout
 app = Flask(__name__)
 
-gmaps = googlemaps.Client(key='your googlemaps api key')
+gmaps = googlemaps.Client(key='your google maps api key')
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -60,11 +60,11 @@ def setLocation(query, location, radius):
     for element in place_details_results['results']:
         if element['place_id']:
             place_details = gmaps.place(element['place_id'], 'zh-TW')
-            for k,v in place_details['result'].iteritems():
+            for k,v in place_details['result'].items():
                 if k == 'formatted_address':
                     geocodeList = gmaps.geocode(v, language = 'zh-TW')
                     #print (geocodeList)
-                    for key, value in geocodeList[0].iteritems():
+                    for key, value in geocodeList[0].items():
                         if key == 'geometry':
                             latitude = value['location']['lat']
                             longtitude = value['location']['lng']
@@ -81,7 +81,7 @@ def searchDetails(query, location, radius):
             place_details = gmaps.place(element['place_id'], 'zh-TW')
             #print ("place_details")
             #print (place_details)
-            for k,v in place_details['result'].iteritems():
+            for k,v in place_details['result'].items():
                 if k == 'name':
                     x = 1
                     response = response+'店名: '+str(v)+'\n'
@@ -107,7 +107,7 @@ def searchDetails(query, location, radius):
 def giveStoreNames(location, radius, place_type, searchName):
     #if no store, x remains 0
     x = 0
-    places_radar_result = gmaps.places_radar(location, radius, name = searchName, type = place_type)  
+    places_radar_result = gmaps.places_nearby(location, radius, name = searchName, type = place_type)  
     response = "以下為您整理附近資訊: \n\n"
     #print ("places_radar_result")
     #print (places_radar_result)
@@ -116,7 +116,7 @@ def giveStoreNames(location, radius, place_type, searchName):
             place_details = gmaps.place(element['place_id'], 'zh-TW')
             #print ("place_details")
             #print (place_details)
-            for k,v in place_details['result'].iteritems():
+            for k,v in place_details['result'].items():
                 if k == 'name':
                     x = 1
                     response = response+str(v)+", "
